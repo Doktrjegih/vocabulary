@@ -2,7 +2,7 @@ import csv
 import random
 import datetime
 
-print('test server_side')
+print('test server_side2')
 
 with open("test.csv", encoding='utf-8') as r_file:
     reader = csv.reader(r_file, delimiter=";")
