@@ -2,8 +2,6 @@ import csv
 import random
 import datetime
 
-print('test server_side2')
-
 with open("test.csv", encoding='utf-8') as r_file:
     reader = csv.reader(r_file, delimiter=";")
     sortedlist = sorted(reader, key=lambda row: row[2], reverse=False)
@@ -28,5 +26,5 @@ with open("test.csv", encoding='utf-8') as r_file:
                 file_writer.writerow(oldest_records[count])
         else:
             print('nope..')
-            print('yeeet')
+            print('test server_side2')
         del(oldest_records[count])
