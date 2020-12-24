@@ -4,6 +4,8 @@ import datetime
 
 print('test server_side2')
 
+print('nope..')
+
 with open("test.csv", encoding='utf-8') as r_file:
     reader = csv.reader(r_file, delimiter=";")
     sortedlist = sorted(reader, key=lambda row: row[2], reverse=False)
