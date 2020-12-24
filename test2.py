@@ -28,4 +28,5 @@ with open("test.csv", encoding='utf-8') as r_file:
                 file_writer.writerow(oldest_records[count])
         else:
             print('nope..')
+            print('yeeet')
         del(oldest_records[count])
