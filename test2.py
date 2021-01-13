@@ -63,6 +63,18 @@ def training():
             del(oldest_records[count])  # слово пройдено, убираем из цикла
 
 
+def new_word():
+    class NewWord:
+        word = input('введите новое слово: ')
+        translate = input('введите перевод: ')
+        print('все верно?', word, '-', translate)
+        answer = input()
+        if answer == '+':
+            pass
+        elif answer == '-':
+            new_word()
+
+
 def main_menu():
     print('''лео сосатб
 ----------
@@ -76,6 +88,8 @@ def main_menu():
         exit()
     elif action == 1:
         training()
+    elif action == 2:
+        new_word()
 
 
 main_menu()
