@@ -1,6 +1,23 @@
 import csv
 import random
 import datetime
+import colorama
+from colorama import Fore, Style
+
+
+def new_time(particular_time, oldest_records, count):
+    with open("test.csv", "r") as file:  # 1. читаем все строки в файле
+        lines = file.readlines()
+    for line in lines:  # 2. удаляем строку пройденного слова (определяем по времени)
+        if oldest_records[count][2] in line:
+            lines.remove(line)
+    with open("test.csv", "w") as file:  # 3. записываем обратно все строки без убранной
+        file.writelines(lines)
+    with open("test.csv", mode="a",
+              encoding='utf-8') as w_file:  # 4. дописываем в конец файла слово с новой датой
+        file_writer = csv.writer(w_file, delimiter=",", lineterminator="\r")
+        oldest_records[count][2] = particular_time
+        file_writer.writerow(oldest_records[count])
 
 
 def new_word():
@@ -38,8 +55,8 @@ def training():
     with open("test.csv", encoding='utf-8') as r_file:  # открываем файл на чтение
         reader = csv.reader(r_file, delimiter=",")
         sortedlist = sorted(reader, key=lambda row: row[2], reverse=False)  # сортировка по дате
-        oldest_records = sortedlist[0:3]  # выбор трех самых старых записей
-        for i in range(3):  # цикл для взаимодействия с пользователем (вопрос-ответ)
+        oldest_records = sortedlist[0:10]  # выбор трех самых старых записей
+        for i in range(10):  # цикл для взаимодействия с пользователем (вопрос-ответ)
             answer_list = []  # обнуляем список вариантов ответа
             count = random.randint(0, len(oldest_records) - 1)  # для рандома
             print(oldest_records[count][0])  # выводим слово-вопрос
@@ -70,35 +87,15 @@ def training():
             if answer1 == 0:
                 main_menu()
             if answer_list[answer1 - 1] == oldest_records[count][1]:  # условие если правильно/неправильно
-                print('great!')
+                print('great!\n')
                 now = datetime.datetime.now()
-                with open("test.csv", "r") as file:  # 1. читаем все строки в файле
-                    lines = file.readlines()
-                for line in lines:  # 2. удаляем строку пройденного слова (определяем по времени)
-                    if oldest_records[count][2] in line:
-                        lines.remove(line)
-                with open("test.csv", "w") as file:  # 3. записываем обратно все строки без убранной
-                    file.writelines(lines)
-                with open("test.csv", mode="a",
-                          encoding='utf-8') as w_file:  # 4. дописываем в конец файла слово с новой датой
-                    file_writer = csv.writer(w_file, delimiter=",", lineterminator="\r")
-                    oldest_records[count][2] = str(now.isoformat())
-                    file_writer.writerow(oldest_records[count])
+                new_time(str(now.isoformat()), oldest_records, count)
             else:
-                print(f'nope, right answer is: {oldest_records[count][1].lower()}')
+                colorama.init()
+                print(f'nope, right answer is: ' + Fore.GREEN + oldest_records[count][1].lower())
+                print(Style.RESET_ALL)
                 tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
-                with open("test.csv", "r") as file:  # 1. читаем все строки в файле
-                    lines = file.readlines()
-                for line in lines:  # 2. удаляем строку пройденного слова (определяем по времени)
-                    if oldest_records[count][2] in line:
-                        lines.remove(line)
-                with open("test.csv", "w") as file:  # 3. записываем обратно все строки без убранной
-                    file.writelines(lines)
-                with open("test.csv", mode="a",
-                          encoding='utf-8') as w_file:  # 4. дописываем в конец файла слово с новой датой
-                    file_writer = csv.writer(w_file, delimiter=",", lineterminator="\r")
-                    oldest_records[count][2] = str(tomorrow.isoformat())
-                    file_writer.writerow(oldest_records[count])
+                new_time(str(tomorrow.isoformat()), oldest_records, count)
             del(oldest_records[count])  # слово пройдено, убираем из цикла
 
 
