@@ -25,7 +25,7 @@ def new_word():
         def __init__(self):
             en_word = input('введите новое слово: ')
             ru_word = input('введите перевод: ')
-            print('все верно?', word, '-', ru_word)
+            print('все верно?', en_word, '-', ru_word)
             answer = input()
             if answer == '+':
                 pass
@@ -70,7 +70,7 @@ def training():
             for nn in range(4):  # выбираем номера строк для случайных вариантов ответа
                 rand_spis.append(random.randint(1, strok_vsego))
             # print(rand_spis)  # какие элементы тащит для вариантов ответа
-            with open("test.csv", encoding='utf-8') as r_file2:  # выбираем случайные варианты ответа по известным номерам
+            with open("test.csv", encoding='utf-8') as r_file2:  # выбираем случайные варианты ответа из файла
                 reader2 = csv.reader(r_file2, delimiter=",")
                 nomer_stroki = 0
                 for n in reader2:
