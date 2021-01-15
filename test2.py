@@ -23,15 +23,20 @@ def new_time(particular_time, oldest_records, count):
 def new_word():
     class Word:
         def __init__(self):
-            en_word = input('введите новое слово: ')
-            ru_word = input('введите перевод: ')
-            print('все верно?', en_word, '-', ru_word)
+            self.en_word = input('введите новое слово: ')
+            self.ru_word = input('введите перевод: ')
+            print('все верно?', self.en_word, '-', self.ru_word)
             answer = input()
             if answer == '+':
                 pass
             elif answer == '-':
                 new_word()
+
+        def __str__(self):
+            return f"Добавлено слово: {self.en_word} \t Перевод: {self.ru_word}"
+
     word = Word()
+    print(word)
 
 
 def main_menu():
