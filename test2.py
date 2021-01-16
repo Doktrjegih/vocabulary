@@ -25,18 +25,25 @@ def new_word():
         def __init__(self):
             self.en_word = input('введите новое слово: ')
             self.ru_word = input('введите перевод: ')
-            print('все верно?', self.en_word, '-', self.ru_word)
+            print('все верно? (0 для выхода)', self.en_word, '-', self.ru_word)
             answer = input()
             if answer == '+':
                 pass
             elif answer == '-':
                 new_word()
+            elif answer == '0':
+                main_menu()
 
-        def __str__(self):
-            return f"Добавлено слово: {self.en_word} \t Перевод: {self.ru_word}"
+        def addword(self):
+            with open("test.csv", mode="a",
+                      encoding='utf-8') as w_file:
+                file_writer = csv.writer(w_file, delimiter=",", lineterminator="\r")
+                now = datetime.datetime.now()
+                new = [self.en_word, self.ru_word, str(now.isoformat()), 0]
+                file_writer.writerow(new)
 
     word = Word()
-    print(word)
+    word.addword()
 
 
 def main_menu():
@@ -68,19 +75,19 @@ def training():
             answer_list.append(oldest_records[count][1])  # добавляем правильный ответ к списку вариантов
             with open("test.csv", encoding='utf-8') as r_file1:  # считаем кол-во строк в файле
                 reader1 = csv.reader(r_file1, delimiter=",")
-                strok_vsego = 0
+                amount_of_stings = 0
                 for m in reader1:
-                    strok_vsego += 1
-            rand_spis = []
+                    amount_of_stings += 1
+            rand_list = []
             for nn in range(4):  # выбираем номера строк для случайных вариантов ответа
-                rand_spis.append(random.randint(1, strok_vsego))
-            # print(rand_spis)  # какие элементы тащит для вариантов ответа
+                rand_list.append(random.randint(1, amount_of_stings))
+            # print(rand_list)  # какие элементы тащит для вариантов ответа
             with open("test.csv", encoding='utf-8') as r_file2:  # выбираем случайные варианты ответа из файла
                 reader2 = csv.reader(r_file2, delimiter=",")
-                nomer_stroki = 0
+                number_of_string = 0
                 for n in reader2:
-                    nomer_stroki += 1
-                    if nomer_stroki in rand_spis:
+                    number_of_string += 1
+                    if number_of_string in rand_list:
                         answer_list.append(n[1])
             random.shuffle(answer_list)  # перемешиваем список вариантов ответа
             print('---select right answer (0 для выхода)---')  # показываем варианты пользователю
@@ -99,7 +106,7 @@ def training():
                 colorama.init()
                 print(f'nope, right answer is: ' + Fore.GREEN + oldest_records[count][1].lower())
                 print(Style.RESET_ALL)
-                tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
+                tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)  # сделать + ~50 записей от самой старой
                 new_time(str(tomorrow.isoformat()), oldest_records, count)
             del(oldest_records[count])  # слово пройдено, убираем из цикла
 
