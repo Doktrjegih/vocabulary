@@ -21,29 +21,41 @@ def new_time(particular_time, oldest_records, count):
 
 
 def new_word():
-    class Word:
-        def __init__(self):
-            self.en_word = input('введите новое слово: ')
-            self.ru_word = input('введите перевод: ')
-            print('все верно? (0 для выхода)', self.en_word, '-', self.ru_word)
-            answer = input()
-            if answer == '+':
-                pass
-            elif answer == '-':
-                new_word()
-            elif answer == '0':
-                main_menu()
-
-        def addword(self):
+    with open("test.csv", mode='r', encoding='utf-8') as re_ad:  # открываем файл
+        ppp = csv.reader(re_ad, delimiter=',')   # объявляем метод чтения файла
+        sortedlist = sorted(ppp, key=lambda row: row[0], reverse=False)  # создаем массив из всего файла
+    # print(sortedlist)
+    en_word = input('введите новое слово: ')
+    for r in sortedlist:
+        if r[0] == en_word:
+            print("такое слово уже есть")
+            new_word()
+            break
+        # print("Вы ввели слово " + en_word)
+    else:
+        ru_word = input('введите перевод: ')
+        print('все верно?', en_word, '-', ru_word)
+        answer = input()
+        if answer == '+':
             with open("test.csv", mode="a",
                       encoding='utf-8') as w_file:
                 file_writer = csv.writer(w_file, delimiter=",", lineterminator="\r")
                 now = datetime.datetime.now()
-                new = [self.en_word, self.ru_word, str(now.isoformat()), 0]
+                new = [en_word, ru_word, str(now.isoformat()), 0]
                 file_writer.writerow(new)
+        elif answer == '-':
+            new_word()
+    main_menu()
 
-    word = Word()
-    word.addword()
+
+
+def addword(self):
+    with open("test.csv", mode="a",
+              encoding='utf-8') as w_file:
+        file_writer = csv.writer(w_file, delimiter=",", lineterminator="\r")
+        now = datetime.datetime.now()
+        new = [self.en_word, self.ru_word, str(now.isoformat()), 0]
+        file_writer.writerow(new)
 
 
 def main_menu():
