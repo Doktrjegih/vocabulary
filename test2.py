@@ -34,7 +34,7 @@ def new_word():
         # print("Вы ввели слово " + en_word)
     else:
         ru_word = input('введите перевод: ')
-        print('все верно?', en_word, '-', ru_word)
+        print('все верно? (0 для выхода)', en_word, '-', ru_word)
         answer = input()
         if answer == '+':
             with open("test.csv", mode="a",
@@ -45,6 +45,8 @@ def new_word():
                 file_writer.writerow(new)
         elif answer == '-':
             new_word()
+        elif answer == '0':
+            main_menu()
     main_menu()
 
 
@@ -59,8 +61,7 @@ def addword(self):
 
 
 def main_menu():
-    print('''лео сосатб
-----------
+    print('''---лео сосатб---
 выбери действие:
 [1] тренироваться
 [2] добавить слово
